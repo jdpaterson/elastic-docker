@@ -73,12 +73,30 @@ services:
         target: /usr/share/apm-server/apm-server.yml
         read_only: true
     ports:
-      - 8200:9200
+      - 8200:8200
     networks:
       - elk
     depends_on:
       - elasticsearch
       - kibana
+
+  filebeat:
+    build:
+      context: filebeat/
+    volumes:
+      - type: bind
+        source: ./filebeat/config/filebeat.yml
+        target: /usr/share/filebeat/filebeat.yml
+        read_only: true
+      - type: bind
+        source: ./log
+        target: /usr/app
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+      - kibana
+      - logstash
 
 networks:
   elk:

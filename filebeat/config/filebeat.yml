@@ -1,0 +1,9 @@
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /usr/app/log/*.log
+output.elasticsearch:
+  hosts: ['elasticsearch:9200']
+  username: 'elastic'
+  password: 'changeme'
